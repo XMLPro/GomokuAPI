@@ -3,3 +3,8 @@
 
 ## 環境
 golang
+
+## 実行
+```
+go run main.go
+```
