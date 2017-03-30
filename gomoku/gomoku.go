@@ -1,9 +1,14 @@
 package gomoku
 
+import (
+	"fmt"
+)
+
 // 盤面の目の状態を表します。
 // NONE  - 何も打たれていない。
 // WHITE - 白石が打たれている。
 // BLACK - 黒石が打たれている。
+
 const (
 	NONE  int = 0
 	WHITE int = 1
@@ -12,47 +17,61 @@ const (
 
 // 碁盤です。
 type Gomoku struct {
-	Board [][]int
+	turn   int
+	board  [][]int
+	record *Record
 }
 
 // 碁盤の初期化を行います。
-func NewGomoku(xsize int, ysize int) *Gomoku {
-	board := make([][]int, ysize)
-	for i := 0; i < ysize; i++ {
-		board[i] = make([]int, xsize)
+func NewGomoku() *Gomoku {
+	board := make([][]int, 19)
+	for i := 0; i < len(board); i++ {
+		board[i] = make([]int, 19)
 	}
-	gomoku := &Gomoku{
-		Board: board,
+	return &Gomoku{
+		turn:   BLACK,
+		board:  board,
+		record: NewRecord(),
 	}
-	return gomoku
+}
+
+// 勝利判定
+func (g *Gomoku) Check() bool {
+	return g.check_row() || g.check_column() || g.check_slant()
+}
+
+// 指定座標に打ち込みます。
+func (g *Gomoku) Put(x, y int) bool {
+	if g.board[x][y] != NONE {
+		return false
+	}
+
+	if g.board[x][y] = g.turn; g.turn == BLACK {
+		g.turn = WHITE
+	} else {
+		g.turn = BLACK
+	}
+	return true
+}
+
+//碁盤の出力
+func (g *Gomoku) Display() {
+	for i := 0; i < len(g.board); i++ {
+		fmt.Println(g.board[i])
+	}
 }
 
 // 横方向(ー)で5目揃っているかを確認します。
-func (gomoku *Gomoku) check_0_degrees() bool {
-	return false
-}
-
-// 斜め方向(／)で5目揃っているかを確認します。
-func (gomoku *Gomoku) check_45_degrees() bool {
+func (g *Gomoku) check_row() bool {
 	return false
 }
 
 // 縦方向(｜)で5目揃っているかを確認します。
-func (gomoku *Gomoku) check_90_degrees() bool {
+func (g *Gomoku) check_column() bool {
 	return false
 }
 
 // 斜め方向(＼)で5目揃っているかを確認します。
-func (gomoku *Gomoku) check_135_degrees() bool {
-	return false
-}
-
-// 勝利判定
-func (gomoku *Gomoku) Check() bool {
-	return gomoku.check_0_degrees() || gomoku.check_45_degrees() || gomoku.check_90_degrees() || gomoku.check_135_degrees()
-}
-
-// 指定座標に打ち込みます。
-func (gomoku *Gomoku) Put(status int, x int, y int) bool {
+func (g *Gomoku) check_slant() bool {
 	return false
 }
