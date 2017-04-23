@@ -21,12 +21,8 @@ func (r *Record) Push(turn, x, y int) {
 	r.y = append(r.y, y)
 }
 
-func (r *Record) LastX() int {
-	return r.x[len(r.x)-1]
-}
-
-func (r *Record) LastY() int {
-	return r.y[len(r.y)-1]
+func (r *Record) Last() (int, int) {
+	return r.x[len(r.x)-1], r.y[len(r.y)-1]
 }
 
 func (r *Record) Winner() int {
